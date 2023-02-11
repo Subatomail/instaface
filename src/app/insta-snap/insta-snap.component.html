@@ -1,0 +1,8 @@
+<div class="insta-snap-card">
+    <h2>{{ title }}</h2>
+    <p>Publié le {{ createdDate }}</p>
+    <img [src]="imageUrl" [alt]="title">
+    <p>{{ description }}</p>
+    <p><button (click)="onLike()">{{buttonText}}</button> {{likes}}</p>
+  </div>
+
