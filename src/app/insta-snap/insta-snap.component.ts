@@ -1,37 +1,23 @@
-import { Component } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
+import { InstaSnap } from '../models/insta-snap.model';
+import { InstaSnapService } from '../services/insta-snap.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-insta-snap',
   templateUrl: './insta-snap.component.html',
   styleUrls: ['./insta-snap.component.scss']
 })
 export class InstaSnapComponent {
-  id!: number;  
-  title!: string;
-  description!: string;
-  createdDate!: Date;
-  likes!: number;
-  imageUrl!: string;
+  @Input() instaSnap!: InstaSnap;
   buttonText!: string;
-
-  ngOnInit(){
-    this.id=1
-    this.title= "Corgi";
-    this.description="Mon meilleur ami"
-    this.createdDate=new Date()
-    this.likes=7;
-    this.imageUrl="../assets/images/corgi.jpg"
-    this.buttonText="J'aime !"
-
+  constructor(private instaSnapService: InstaSnapService,
+    private router: Router){
 
   }
-  onLike(){
-    if (this.buttonText==="J'aime !"){
-      this.likes++;
-      this.buttonText = "J'ai aimé !!!"
-    }else{
-      this.likes--;
-      this.buttonText = "J'aime !"
-    }
+  ngOnInit(){
+    this.buttonText="J'aime !"
+  }
+  onVisitInstaSnap(){
+    this.router.navigateByUrl(`instasnaps/${this.instaSnap.id}`);
   }
 }

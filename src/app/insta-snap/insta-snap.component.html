@@ -1,8 +1,6 @@
-<div class="insta-snap-card">
-    <h2>{{ title }}</h2>
-    <p>Publié le {{ createdDate }}</p>
-    <img [src]="imageUrl" [alt]="title">
-    <p>{{ description }}</p>
-    <p><button (click)="onLike()">{{buttonText}}</button> {{likes}}</p>
+<div class="insta-snap-card" [ngClass]="{liked:buttonText==='J\'ai aimé !!!'}">
+    <h2>{{ instaSnap.title | uppercase}}</h2>
+    <p>{{ instaSnap.description }}</p>
+    <button (click)="onVisitInstaSnap()">Visiter</button>
   </div>
 

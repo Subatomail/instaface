@@ -1,0 +1,10 @@
+<div class="insta-snap-card" [ngClass]="{liked:buttonText==='J\'ai aimé !!!'}">
+    <a routerLink="/instasnaps">Retour</a>
+    <h2>{{ instaSnap.title | uppercase}}</h2>
+    <p>Publié {{ instaSnap.createdDate | date:"longDate"}}</p>
+    <p *ngIf="instaSnap.location">Pris à {{instaSnap.location}}</p>
+    <img [src]="instaSnap.imageUrl" [alt]="instaSnap.title">
+    <p>{{ instaSnap.description }}</p>
+    <p><button (click)="onLike()">{{buttonText}}</button> <span [ngStyle]="{color:'rgb(0,'+instaSnap.likes+',0)'}">{{instaSnap.likes}}</span> </p>
+  </div>
+
