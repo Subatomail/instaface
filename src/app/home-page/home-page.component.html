@@ -1,7 +1,18 @@
 <div class="home-block">
-    <img src="../../assets/images/logo.png" alt="logo">
-    <div class="home-links">
-        <button (click)="onContinue()">Continuer vers InstaSnap</button>
-    </div>
-
+  <div class="form-center">
+    <form #emailForm="ngForm" (ngSubmit)="onSubmitForm(emailForm)">
+      <label for="emailInput">Inscrivez-vous à notre newsletter </label>
+      <input
+        type="email"
+        id="emailInput"
+        name="userEmail"
+        [(ngModel)]="userEmail"
+      />
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+  <img src="../../assets/images/logo.png" alt="logo" />
+  <div class="home-links">
+    <button (click)="onContinue()">Continuer vers InstaSnap</button>
+  </div>
 </div>

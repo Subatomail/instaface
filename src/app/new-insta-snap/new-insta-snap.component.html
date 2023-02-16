@@ -1,0 +1,32 @@
+<div class="form-card">
+    <h2>NOUVEAU INSTASNAP</h2>
+    <form [formGroup]="instaForm">
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" id="title" formControlName="title">
+        </div>
+        <div class="form-group">
+            <label for="description">description</label>
+            <textarea type="text" id="description" formControlName="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">Url de l'image</label>
+            <input type="text" id="imageUrl" formControlName="imageUrl">
+        </div>
+        <div class="form-group">
+            <label for="location">Localisation</label>
+            <input type="text" id="location" formControlName="location">
+        </div>
+        <div class="action-buttons">
+            <button type="submit" (click)="onSubmitForm()" [disabled]="instaForm.invalid">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+<div class="insta-snap-card" *ngIf="instaSnapPreview$ | async as instaSnap">
+    <h2>{{ instaSnap.title | uppercase }}</h2>
+    <p>Publié {{ instaSnap.createdDate | date: 'à HH:mm, le d MMMM yyyy' }}</p>
+    <img [src]="instaSnap.imageUrl" [alt]="instaSnap.title">
+    <p>{{ instaSnap.description }}</p>
+    <p *ngIf="instaSnap.location">Pris à {{ instaSnap.location }}</p>
+</div>

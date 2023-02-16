@@ -4,6 +4,15 @@
     left: 50%;
     transform: translate(-50%,-50%);
 }
+.form-center{
+  margin-top: 70px;
+  display:flex;
+  justify-content:center;
+}
+.form-center input{
+  margin-left: 10px;
+  margin-right: 20px;
+}
 .home-links{
     width: 100%;
     text-align: center;

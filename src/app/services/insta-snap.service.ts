@@ -58,4 +58,14 @@ export class InstaSnapService{
         const instaSnap=this.getInstaSnapById(id);
         type === "like" ? instaSnap.likes++ : instaSnap.likes--;
     }
+
+    addInstaSnap(formValue: {title:string,description:string,imageUrl:string,location?:string}){
+      const instaSnap : InstaSnap={
+        ...formValue,
+        likes:0,
+        createdDate:new Date(),
+        id: this.instaSnaps[this.instaSnaps.length - 1].id + 1
+      };
+      this.instaSnaps.push(instaSnap);
+    }
 }
