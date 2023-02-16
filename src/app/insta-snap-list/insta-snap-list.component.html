@@ -1,1 +1,1 @@
-<app-insta-snap *ngFor="let instaSnap of instaSnaps" [instaSnap]="instaSnap"></app-insta-snap>
+<app-insta-snap *ngFor="let instaSnap of instaSnaps$ | async" [instaSnap]="instaSnap"></app-insta-snap>

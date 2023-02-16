@@ -1,71 +1,44 @@
+import { HttpClient } from "@angular/common/http";
 import {Injectable} from "@angular/core"
+import { map, Observable, switchMap } from "rxjs";
 import { InstaSnap } from "../models/insta-snap.model"
 @Injectable({
     providedIn:"root"
 })
 export class InstaSnapService{
-    instaSnaps: InstaSnap[]=[
-        {
-        id: 1,
-      title: "Corgi",
-      description:"Mon meilleur ami",
-      createdDate :new Date(),
-      likes:2000,
-      imageUrl:"../assets/images/corgi.jpg",
-      location:"Paris"
-      },
-      {
-        id: 2,
-      title: "Autel",
-      description:"Une belle image",
-      createdDate :new Date(),
-      likes:5,
-      imageUrl:"../assets/images/altar.jpg"
-      },
-      {
-        id: 3,
-      title: "Foret",
-      description:"Une image d'une foret",
-      createdDate :new Date(),
-      likes:12,
-      imageUrl:"../assets/images/forest.jpg",
-      location:"Quebec"
-      },
-      {
-        id: 4,
-      title: "Cigne",
-      description:"Un oiseau aquatique",
-      createdDate :new Date(),
-      likes:3,
-      imageUrl:"../assets/images/swan.jpg"
-      }
-    ]
+    
+  constructor(private http:HttpClient){}
 
-    getAllInstaSnaps():InstaSnap[]{
-        return this.instaSnaps;
+    getAllInstaSnaps():Observable<InstaSnap[]>{
+        return this.http.get<InstaSnap[]>("http://localhost:3000/instasnaps");
     }
 
-    getInstaSnapById(id:number):InstaSnap{
-        const instaSnap= this.instaSnaps.find(instaSnap => instaSnap.id === id);
-        if (!instaSnap) {
-            throw new Error("L'InstaSnap que vous cherchez n'existe pas !");
-        } else {
-            return instaSnap;
-        }
+    getInstaSnapById(id:number):Observable<InstaSnap>{
+        return this.http.get<InstaSnap>(`http://localhost:3000/instasnaps/${id}`);
     }
 
-    likeInstaSnapById(id:number,type:string):void{
-        const instaSnap=this.getInstaSnapById(id);
-        type === "like" ? instaSnap.likes++ : instaSnap.likes--;
+    likeInstaSnapById(id:number,type:string):Observable<InstaSnap>{
+        return this.getInstaSnapById(id).pipe(
+          map(InstaSnap => ({
+            ...InstaSnap,
+            likes:InstaSnap.likes + (type === "like"?1:-1)
+          })),
+          switchMap(updatedInstaSnap => this.http.put<InstaSnap>(`http://localhost:3000/instasnaps/${id}`,updatedInstaSnap))
+        )
     }
 
-    addInstaSnap(formValue: {title:string,description:string,imageUrl:string,location?:string}){
-      const instaSnap : InstaSnap={
-        ...formValue,
-        likes:0,
-        createdDate:new Date(),
-        id: this.instaSnaps[this.instaSnaps.length - 1].id + 1
-      };
-      this.instaSnaps.push(instaSnap);
+    addInstaSnap(formValue: {title:string,description:string,imageUrl:string,location?:string}):Observable<InstaSnap>{
+      return this.getAllInstaSnaps().pipe(
+        map(instasnaps => [...instasnaps].sort((a,b)=>a.id - b.id)),
+        map(sortedInstasnaps => sortedInstasnaps[sortedInstasnaps.length-1]),
+        map(previousInstasnap => ({
+          ...formValue,
+          likes:0,
+          createdDate:new Date(),
+          id: previousInstasnap.id+1
+
+        })),
+        switchMap(newInstasnap => this.http.post<InstaSnap>(`http://localhost:3000/instasnaps`,newInstasnap))
+      )
     }
 }

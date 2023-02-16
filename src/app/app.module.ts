@@ -12,6 +12,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { SingleInstaSnapComponent } from './single-insta-snap/single-insta-snap.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewInstaSnapComponent } from './new-insta-snap/new-insta-snap.component';
+import {HttpClientModule} from "@angular/common/http"
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { NewInstaSnapComponent } from './new-insta-snap/new-insta-snap.component
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     {provide:LOCALE_ID, useValue:"fr-FR"}

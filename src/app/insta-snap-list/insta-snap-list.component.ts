@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { InstaSnap } from '../models/insta-snap.model';
 import { InstaSnapService } from '../services/insta-snap.service';
 @Component({
@@ -7,15 +8,13 @@ import { InstaSnapService } from '../services/insta-snap.service';
   styleUrls: ['./insta-snap-list.component.scss']
 })
 export class InstaSnapListComponent implements OnInit {
-  instaSnaps!: InstaSnap[];
+  instaSnaps$!: Observable<InstaSnap[]>;
 
   constructor(private instaSnapService: InstaSnapService){
 
   }
   ngOnInit(): void{
-    this.instaSnaps = this.instaSnapService.getAllInstaSnaps();
-    
-
+    this.instaSnaps$ = this.instaSnapService.getAllInstaSnaps();
   }
 
 }

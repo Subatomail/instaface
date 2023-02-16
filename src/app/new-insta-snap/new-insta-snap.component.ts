@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { InstaSnap } from '../models/insta-snap.model';
 import { InstaSnapService } from '../services/insta-snap.service';
 
@@ -39,8 +39,9 @@ export class NewInstaSnapComponent implements OnInit{
     )
   }
   onSubmitForm(){
-    this.instaSnapService.addInstaSnap(this.instaForm.value);
-    this.router.navigateByUrl("/instasnaps");
+    this.instaSnapService.addInstaSnap(this.instaForm.value).pipe(
+      tap(() => this.router.navigateByUrl("/instasnaps"))
+    ).subscribe();
   }
 
 }
